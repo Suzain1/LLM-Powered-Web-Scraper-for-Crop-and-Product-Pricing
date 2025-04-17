@@ -19,7 +19,7 @@ st.set_page_config(
 # Sidebar navigation
 # -------------------------------
 st.sidebar.title("🌐 Navigation")
-page = st.sidebar.radio("Go to", ["Home", "About", "Development", "Team"])
+page = st.sidebar.radio("Go to", ["Home", "About", "Development"])
 
 # -------------------------------
 # Custom CSS styling
@@ -188,15 +188,3 @@ elif page == "Development":
     """)
 
 
-
-# ===============================
-# PAGE 4: TEAM
-# ===============================
-elif page == "Team":
-    st.title("👥 Project Team")
-    st.markdown("""
-    - 👨‍🔬 **Ms. Suzain Rashid Lead** – Project Investigator  
-    - 🧑‍💻 **Ms. Suzain Rashid** – Backend Developer  
-    - 🎨 **Ms. Suzain Rashid** – UI/UX & Frontend  
-    - 🧠 **Groq LLM** – AI Assistant  
-    """)
