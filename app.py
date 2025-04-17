@@ -4,13 +4,26 @@ from llm_parser import extract_products_with_llm
 import time
 import json
 
+
+
+# -------------------------------
+# Page configuration
+# -------------------------------
 st.set_page_config(
     page_title="Crop and Product Price Scraper",
     page_icon="🌱",
     layout="centered"
 )
 
+# -------------------------------
+# Sidebar navigation
+# -------------------------------
+st.sidebar.title("🌐 Navigation")
+page = st.sidebar.radio("Go to", ["Home", "About", "Development", "Team"])
+
+# -------------------------------
 # Custom CSS styling
+# -------------------------------
 st.markdown("""
     <style>
         .stTextInput input {
@@ -43,79 +56,147 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🌱 Crop and Product Price Scraper")
-st.markdown("""
-Extract structured product pricing data from hydroponic farming websites.
-Enter a URL from the approved list below to get clean product data.
-""")
 
-groq_key = "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"
-
-with st.sidebar:
-    st.markdown("### ✅ Approved Websites")
+# ===============================
+# PAGE 1: HOME
+# ===============================
+if page == "Home":  
+    st.title("🌱 Crop and Product Price Scraper")
     st.markdown("""
-    - [Blue Lettuce](https://www.bluelettuce.in/our-products/)
-    - [Only Hydroponics](https://onlyhydroponics.in/collections/herbs)
-    - [Dhakad Hydroponic](https://www.dhakadhydroponic.com/shop/Seeds?cid=3702493)
-    - [Jags Fresh](https://www.jagsfresh.com/subcategory/vegetables/hydroponics)
+    Extract structured product pricing data from hydroponic farming websites.
+    Enter a URL from the approved list below to get clean product data.
     """)
-    st.markdown("---")
-    st.markdown("🔁 Use the navigation sidebar to explore pages")
+    
+    groq_key = "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"
+    
+    with st.sidebar:
+        st.markdown("### ✅ Approved Websites")
+        st.markdown("""
+        - [Blue Lettuce](https://www.bluelettuce.in/our-products/)
+        - [Only Hydroponics](https://onlyhydroponics.in/collections/herbs)
+        - [Dhakad Hydroponic](https://www.dhakadhydroponic.com/shop/Seeds?cid=3702493)
+        - [Jags Fresh](https://www.jagsfresh.com/subcategory/vegetables/hydroponics)
+        """)
+        st.markdown("---")
+        st.markdown("🔁 Use the navigation sidebar to explore pages")
+    
+    url = st.text_input(
+        "Enter URL from approved list:",
+        placeholder="https://www.bluelettuce.in/our-products/",
+        help="Only works with approved hydroponic product websites"
+    )
+    
+    if st.button("Extract Product Data"):
+        if not url:
+            st.warning("Please enter a URL")
+            st.stop()
+    
+        if not groq_key:
+            st.error("Please provide your Groq API key")
+            st.stop()
+    
+        progress_bar = st.progress(0)
+        status_text = st.empty()
+    
+        try:
+            status_text.text("Scraping website content...")
+            progress_bar.progress(25)
+            scraped_content = scrape_with_firecrawl(url)
+    
+            status_text.text("Extracting product data with AI...")
+            progress_bar.progress(60)
+            products = extract_products_with_llm(scraped_content, groq_key)
+    
+            status_text.text("Formatting results...")
+            progress_bar.progress(90)
+    
+            if not products:
+                st.warning("No products found or unable to extract data from this page.")
+            else:
+                st.success(f"Found {len(products)} products!")
+                st.markdown("### Extracted Product Data")
+                with st.expander("View raw JSON data"):
+                    st.json(products)
+    
+                # JSON Download Button
+                json_str = json.dumps(products, indent=2)
+                st.download_button(
+                    label="📥 Download JSON",
+                    data=json_str,
+                    file_name="products_data.json",
+                    mime="application/json"
+                )
+    
+            progress_bar.progress(100)
+            status_text.text("Done!")
+            time.sleep(1)
+            status_text.empty()
+            progress_bar.empty()
+    
+        except Exception as e:
+            st.error(f"An error occurred: {str(e)}")
+            progress_bar.empty()
+            status_text.empty()
 
-url = st.text_input(
-    "Enter URL from approved list:",
-    placeholder="https://www.bluelettuce.in/our-products/",
-    help="Only works with approved hydroponic product websites"
-)
+# ===============================
+# PAGE 2: ABOUT
+# ===============================
+elif page == "About":
+    st.title("ℹ️ About This Tool")
+    st.markdown("""
+    The **Crop and Product Price Scraper** is an AI-powered tool designed to extract structured product pricing data from hydroponic farming websites.
 
-if st.button("Extract Product Data"):
-    if not url:
-        st.warning("Please enter a URL")
-        st.stop()
+    It uses:
+    - 🔥 A real-time web scraper powered by **Firecrawl** (or your custom scraping logic)
+    - 🤖 A powerful **Large Language Model (LLM)** via the **Groq API** to intelligently extract structured product details like names, prices, and units
 
-    if not groq_key:
-        st.error("Please provide your Groq API key")
-        st.stop()
+    This helps farmers, agritech developers, and researchers:
+    - Track pricing across multiple platforms
+    - Automate data collection from online hydroponic product listings
+    - Build comparative dashboards or market trend analysis
 
-    progress_bar = st.progress(0)
-    status_text = st.empty()
+    ---
+    Developed using **Python + Streamlit**, this tool offers a clean UI, AI automation, and JSON export functionality.
+    """)
 
-    try:
-        status_text.text("Scraping website content...")
-        progress_bar.progress(25)
-        scraped_content = scrape_with_firecrawl(url)
 
-        status_text.text("Extracting product data with AI...")
-        progress_bar.progress(60)
-        products = extract_products_with_llm(scraped_content, groq_key)
+elif page == "Development":
+    st.title("🛠️ Development Details")
+    st.markdown("""
+    This tool combines **web scraping** and **AI-powered parsing** to convert unstructured crop product listings into structured JSON output.
 
-        status_text.text("Formatting results...")
-        progress_bar.progress(90)
+    ### ⚙️ Tech Stack:
+    - **Frontend/UI**: [Streamlit](https://streamlit.io)
+    - **Web Scraper**: Custom implementation using Firecrawl / requests + BeautifulSoup
+    - **AI Parser**: Real-time LLM API (e.g., Groq) to extract product information
 
-        if not products:
-            st.warning("No products found or unable to extract data from this page.")
-        else:
-            st.success(f"Found {len(products)} products!")
-            st.markdown("### Extracted Product Data")
-            with st.expander("View raw JSON data"):
-                st.json(products)
+    ### 🧠 Workflow:
+    1. 🔗 User enters a product page URL from an approved list
+    2. 🔍 Scraper fetches the HTML content of the page
+    3. 🤖 LLM processes raw text and identifies:
+        - Product names  
+        - Prices  
+        - Units / quantities  
+    4. 🖼️ Extracted items are presented as styled cards
+    5. 📦 Users can download the structured data in JSON format
 
-            # JSON Download Button
-            json_str = json.dumps(products, indent=2)
-            st.download_button(
-                label="📥 Download JSON",
-                data=json_str,
-                file_name="products_data.json",
-                mime="application/json"
-            )
+    ### 🚀 Future Enhancements:
+    - Integrate more e-commerce sites and crops
+    - Add optional CSV export
+    - Implement semantic search/filter for product names
+    - Mobile and multilingual support
+    """)
 
-        progress_bar.progress(100)
-        status_text.text("Done!")
-        time.sleep(1)
-        status_text.empty()
-        progress_bar.empty()
 
-    except Exception as e:
-        st.error(f"An error occurred: {str(e)}")
-        progress_bar.empty()
-        status_text.empty()
+
+# ===============================
+# PAGE 4: TEAM
+# ===============================
+elif page == "Team":
+    st.title("👥 Project Team")
+    st.markdown("""
+    - 👨‍🔬 **Ms. Suzain Rashid Lead** – Project Investigator  
+    - 🧑‍💻 **Ms. Suzain Rashid** – Backend Developer  
+    - 🎨 **Ms. Suzain Rashid** – UI/UX & Frontend  
+    - 🧠 **Groq LLM** – AI Assistant  
+    """)
