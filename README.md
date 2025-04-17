@@ -54,13 +54,15 @@ RULES:
 └── README.md            
 ```
 
-```
+---
+
 ## 📸 Output Screenshots
 
 ### 🥬 Product Extraction Interface
-![Product Extraction UI](./Output/output_img_1.png)
+![Product Extraction UI](https://raw.githubusercontent.com/Suzain1/LLM-Powered-Web-Scraper-for-Crop-and-Product-Pricing/main/Output/output_img_1.png)
 
 ### 🧾 JSON Output View
-![JSON Output](./Output/output_img_2.png)
-```
+![JSON Output](https://raw.githubusercontent.com/Suzain1/LLM-Powered-Web-Scraper-for-Crop-and-Product-Pricing/main/Output/output_img_2.png)
+
+---
 
