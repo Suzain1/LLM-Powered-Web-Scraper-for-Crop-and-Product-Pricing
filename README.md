@@ -62,7 +62,7 @@ RULES:
 ![Product Extraction UI](https://github.com/Suzain1/LLM-Powered-Web-Scraper-for-Crop-and-Product-Pricing/blob/main/Output/output_img_1.png)
 
 ### 🧾 JSON Output View
-![JSON Output](https://raw.githubusercontent.com/Suzain1/LLM-Powered-Web-Scraper-for-Crop-and-Product-Pricing/main/Output/output_img_2.png)
+![JSON Output](https://github.com/Suzain1/LLM-Powered-Web-Scraper-for-Crop-and-Product-Pricing/blob/main/Output/output_img_2.png)
 
 ---
 
