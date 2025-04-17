@@ -5,6 +5,7 @@
 - Scrapes the raw webpage content using Firecrawl
 - Extracts structured JSON product data using a Mistral LLM
 - Output in a web UI
+- Download the output JSON file
 
 ---
 
