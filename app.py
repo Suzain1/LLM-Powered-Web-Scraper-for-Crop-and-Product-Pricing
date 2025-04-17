@@ -44,7 +44,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # App title and description
-st.title("🌱 Hydroponic Crop Price Scraper")
+st.title("🌱Crop and Product Price Scraper")
 st.markdown("""
 Extract structured product pricing data from hydroponic farming websites.
 Enter a URL from the approved list below to get clean product data.
