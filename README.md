@@ -54,3 +54,13 @@ RULES:
 └── README.md            
 ```
 
+```
+## 📸 Output Screenshots
+
+### 🥬 Product Extraction Interface
+![Product Extraction UI](Output/output_img_1.png)
+
+### 🧾 JSON Output View
+![JSON Output](Output/output_img_2.png)
+```
+
