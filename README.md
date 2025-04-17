@@ -1,9 +1,5 @@
 # 🌿 LLM-Powered Web Scraper for Crop/Product Pricing
 
-- 🔥 **Firecrawl** for web scraping
-- 🤖 **Mistral via Groq API** for LLM-based content parsing
-- 🎨 **Streamlit** for the user interface
-
 ## 🚀 Features
 - Accepts a single URL input from the user
 - Scrapes the raw webpage content using Firecrawl
@@ -36,7 +32,7 @@ RULES:
 
 ---
 
-## 🌐 Approved Crop/Product Websites
+## 🌐 Product Websites
 - [Blue Lettuce](https://www.bluelettuce.in/our-products/)
 - [Only Hydroponics](https://onlyhydroponics.in/collections/herbs)
 - [Dhakad Hydroponic](https://www.dhakadhydroponic.com/shop/Seeds?cid=3702493)
